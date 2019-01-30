@@ -27,21 +27,23 @@ class Timer extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.checkExpired()) {
       clearInterval(this.timer);
+      this.props.onExpired('timer');
     }
   }
 
   render() {
-    const { expireDate } = this.props;
+    const { expireDate, onExpired } = this.props;
     const mtNow = this.state.mtNow;
     const mtExpire = moment(expireDate);
     const isExpired = mtExpire < mtNow;
 
-    console.log(this.props);
+    console.log(onExpired);
+
     return (
-      <div className="Timer">
-        <div>{'현재시간은 ' + mtNow.format('A h:mm:ss ')}</div>
-        {isExpired ? <div>종료 되었습니다. </div> : <div>{mtExpire.fromNow() + ' 후에 강의를 종료 합니다.'})</div>}
-      </div>
+        <div className="Timer">
+          <div>{'현재시간은 ' + mtNow.format('A h:mm:ss ')}</div>
+          {isExpired ? <div>종료 되었습니다. </div> : <div>{mtExpire.fromNow() + ' 후에 강의를 종료 합니다.'})</div>}
+        </div>
     );
   }
 }
